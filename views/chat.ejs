@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+
+
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+body,
+html {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+svg {
+  cursor: pointer;
+}
+
+.navigation {
+  width: 100%;
+  min-height: 60px;
+  background-color: rgb(32, 31, 31);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border: 0.5px solid #76767637;
+}
+
+.case {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  width: 900px;
+  height: 90%;
+  background-color: #ffffff;
+  border: 0.5px solid #76767637;
+}
+
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.left {
+  min-width: 350px;
+  max-width: 350px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.left > .top {
+  position: relative;
+  min-height: 60px;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 0.5px solid #76767637;
+  display: flex;
+  align-items: center;
+}
+
+.left > .top > .tub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-family: "Open Sans";
+  width: 100%;
+}
+.left > .top > .tub > .username {
+  max-width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.left > .top > .tub > .username > .down-arrow {
+  cursor: pointer;
+}
+
+.left > .top > .card {
+  position: absolute;
+  padding: 0 10px;
+  right: 10px;
+}
+.left > .top > .card > button {
+  background-color: #ffffff;
+  border: 0.5px solid #76767637;
+  padding: 4px 8px;
+  color: #323232;
+  font-family: "Open Sans";
+  font-weight: 700;
+  font-size: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.left > .top > .card > button:hover {
+  color: #767676;
+}
+
+.left > .conversations {
+  overflow-y: scroll;
+  height: 100%;
+  padding: 10px 0 0 0;
+  overflow-x: hidden;
+}
+
+.conversations > .person {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  gap: 10px;
+}
+
+.conversations > .person:hover {
+  background-color: #f0f0f0af;
+  cursor: pointer;
+}
+
+.conversations > .person > .information {
+  font-family: "Open Sans";
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.conversations > .person > .information > .username {
+  font-family: "Open Sans";
+  font-size: 14px;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  gap: 4px;
+  width: 100%;
+  align-items: center;
+}
+
+.conversations > .person > .information > .content {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  color: black;
+}
+
+.conversations > .person > .information > .content > .message {
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "Roboto";
+  color: #000000;
+}
+
+.conversations > .person > .information > .content > .new {
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "Roboto";
+  color: black;
+  font-weight: 700;
+}
+
+.conversations > .person > .box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conversations > .person > .box > .image {
+  width: clamp(50px, 50px, 50px);
+  height: clamp(50px, 50px, 50px);
+  border-radius: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conversations > .person > .box > .online {
+  min-width: 1.1rem;
+  min-height: 1.1rem;
+  background-color: lawngreen;
+  border-radius: 100%;
+  position: absolute;
+  border: 3px solid white;
+  right: 0;
+  bottom: 0;
+}
+
+.conversations > .person > .status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.conversations > .person > .status > .point {
+  min-height: 8px;
+  min-width: 8px;
+  background-color: #0084ff;
+  border-radius: 100%;
+}
+
+.right {
+  border-left: 0.5px solid #76767637;
+  width: inherit;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.right > .top {
+  width: 100%;
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 0.5px solid #76767637;
+  gap: 1rem;
+}
+
+.right > .top > .box {
+  position: relative;
+  min-width: 30px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right > .top > .box > .image {
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.right > .top > .box > .online {
+  position: absolute;
+  min-width: 12px;
+  min-height: 12px;
+  background-color: lawngreen;
+  border-radius: 100%;
+  border: 2px solid #ffffff;
+  right: 0;
+  bottom: 0;
+}
+
+.right > .top > .information {
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  gap: 0;
+  text-overflow: ellipsis;
+}
+
+.right > .top > .information > .username,
+.name {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-family: "Open Sans";
+}
+.right > .top .information > .username {
+  font-weight: 400;
+  font-size: 15px;
+  display: flex;
+}
+.blue-tick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+.right > .top > .information > .username > a {
+  color: black;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2.5px;
+}
+
+.right > .top .information > .name {
+  font-weight: 400;
+  font-size: 12px;
+  color: #707070;
+}
+
+.right > .top > .options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right > .top > .options > .info {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.right > .middle {
+  background-color: #ffffff;
+  height: inherit;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 2.5px;
+}
+
+.clip {
+  display: flex;
+}
+
+.clip > .text {
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: 400;
+  max-width: 50%;
+  padding: 8px 16px;
+  border-radius: 20px;
+  word-break: keep-all;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.received > .text {
+  background-color: white;
+  border: 0.5px solid #80808080;
+}
+
+.sent > .text {
+  background-color: #0084ff;
+  color: white;
+}
+
+.sent {
+  flex-direction: row-reverse;
+}
+
+.seen {
+  text-align: right;
+  padding: 0 10px;
+  font-family: "Open Sans";
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: gray;
+}
+
+.right > .bottom {
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+}
+
+.cup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 0.5px solid #7676765c;
+  width: 100%;
+  gap: 10px;
+  padding: 2px 15px;
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+.cup > .picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: clamp(35px, 35px, 35px);
+  height: clamp(35px, 35px, 35px);
+  user-select: none;
+}
+
+.cup > textarea {
+  font-family: "Open Sans";
+  font-size: 0.85rem;
+  font-weight: 400;
+  border: none;
+  outline: none;
+  padding: 0 5px;
+  width: 100%;
+  resize: none;
+  max-height: 100px;
+}
+
+.cup > .send {
+  border: none;
+  padding: 5px 10px;
+  background-color: transparent;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: 700;
+  color: #0084ff;
+}
+
+.send:disabled {
+  color: #0084ff8d;
+}
+
+@media only screen and (max-width: 950px) {
+  .container {
+    border-top: none;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="case">
+      <div class="container">
+        <div class="right">
+          <div class="top">
+            <a style="text-decoration: none; color: #000;" href="/message"
+            ><i style="font-size: 7vw;" class="ri-arrow-left-s-line"></i></a
+          >
+            <div class="box">
+              <div class="image">
+                <img
+                style="object-fit: cover; object-position: center;"
+                  src="/images/uploads/<%= user.profilePic %>"
+                  width="30px"
+                  height="30px"
+                  alt=""
+                />
+              </div>
+              <div class="online"></div>
+            </div>
+
+            <div class="information">
+              <div class="username">
+                <a href="#"><%= user.username %></a>
+              </div>
+              <div class="name">Active now</div>
+            </div>
+
+            <div class="options">
+              <button class="info">
+                <svg
+                  width="25px"
+                  height="25px"
+                  version="1.1"
+                  id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  x="0px"
+                  y="0px"
+                  viewBox="0 0 40 40"
+                  style="enable-background: new 0 0 40 40"
+                  xml:space="preserve"
+                >
+                  <style type="text/css">
+                    .info0 {
+                      fill: #ffffff;
+                      stroke: #000000;
+                      stroke-width: 2;
+                      stroke-miterlimit: 10;
+                    }
+
+                    .info {
+                      stroke: #000000;
+                      stroke-width: 0.25;
+                      stroke-miterlimit: 10;
+                    }
+                  </style>
+                  <circle class="info0" cx="20" cy="20.7" r="16.4" />
+                  <ellipse
+                    class="info1"
+                    cx="19.7"
+                    cy="14.5"
+                    rx="1.5"
+                    ry="1.5"
+                  />
+                  <path
+                    class="info1"
+                    d="M19.9,28.7L19.9,28.7c-0.7,0-1.2-0.5-1.2-1.2V19c0-0.7,0.5-1.2,1.2-1.2l0,0c0.7,0,1.2,0.5,1.2,1.2v8.5
+          C21.1,28.1,20.6,28.7,19.9,28.7z"
+                  />
+                  <path
+                    class="info1"
+                    d="M15.3,18.9L15.3,18.9c0-0.6,0.5-1.1,1.1-1.1H20c0.6,0,1.1,0.5,1.1,1.1l0,0c0,0.6-0.5,1.1-1.1,1.1h-3.6
+          C15.8,20,15.3,19.5,15.3,18.9z"
+                  />
+                  <path
+                    class="info1"
+                    d="M16.6,27.8L16.6,27.8c0-0.6,0.5-1.1,1.1-1.1h4c0.6,0,1.1,0.5,1.1,1.1l0,0c0,0.6-0.5,1.1-1.1,1.1h-4
+          C17.1,29,16.6,28.5,16.6,27.8z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="middle">
+            <div class="tumbler">
+              <div class="messages">
+                <div class="clip sent">
+                  <div class="text">hi</div>
+                </div>
+                <div class="seen">Seen</div>
+                <div class="clip received">
+                  <div class="text">hello</div>
+                </div>
+              </div>
+
+              
+            </div>
+          </div>
+
+          <div class="bottom">
+            <div class="cup">
+              <div class="picker">
+                <svg
+                  width="25px"
+                  height="25px"
+                  version="1.1"
+                  id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  x="0px"
+                  y="0px"
+                  viewBox="0 0 100 100"
+                  style="enable-background: new 0 0 100 100"
+                  xml:space="preserve"
+                >
+                  <style type="text/css">
+                    .ep0 {
+                      fill: #ffffff;
+                      stroke: #000000;
+                      stroke-width: 5;
+                      stroke-miterlimit: 10;
+                    }
+
+                    .ep1 {
+                      stroke: #000000;
+                      stroke-width: 5;
+                      stroke-miterlimit: 10;
+                    }
+                  </style>
+                  <g>
+                    <ellipse class="ep0" cx="50" cy="50" rx="38.7" ry="38.7" />
+                    <path
+                      class="ep1"
+                      d="M50,90c-22.2,0-40-18.1-40-40s17.8-40,40-40s40,18.1,40,40S72.2,90,50,90z M50,12.6
+                                 c-20.6,0-37.5,16.8-37.5,37.4S29.4,87.4,50,87.4S87.5,70.6,87.5,50S70.6,12.6,50,12.6z"
+                    />
+                  </g>
+                  <path
+                    class="ep0"
+                    d="M63.5,62.4c0,3.4-6.1,6.2-13.5,6.2s-13.5-2.8-13.5-6.2"
+                  />
+                  <ellipse class="ep1" cx="36.8" cy="45.9" rx="2.3" ry="2.3" />
+                  <ellipse class="ep1" cx="62.2" cy="45.9" rx="2.3" ry="2.3" />
+                </svg>
+              </div>
+
+              <textarea
+                id="message"
+                cols="30"
+                rows="1"
+                placeholder="Message..."
+              ></textarea>
+              <button class="send">Send</button>
+              <div class="picker photo">
+                <svg
+                  width="25px"
+                  height="25px"
+                  version="1.1"
+                  id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  x="0px"
+                  y="0px"
+                  viewBox="0 0 40 40"
+                  style="enable-background: new 0 0 40 40"
+                  xml:space="preserve"
+                >
+                  <style type="text/css">
+                    .ip0 {
+                      fill: #ffffff;
+                      stroke: #000000;
+                      stroke-width: 3;
+                      stroke-miterlimit: 10;
+                    }
+
+                    .ip1 {
+                      stroke: #000000;
+                      stroke-miterlimit: 10;
+                    }
+                  </style>
+                  <path
+                    class="ip0"
+                    d="M31.3,35.1H8.7c-2.9,0-5.2-2.3-5.2-5.2V10.1c0-2.9,2.3-5.2,5.2-5.2h22.6c2.9,0,5.2,2.3,5.2,5.2v19.8
+                             C36.5,32.8,34.2,35.1,31.3,35.1z"
+                  />
+                  <polyline
+                    class="ip0"
+                    points="3.5,32.2 13.4,23.7 18,27.9 29.3,18.6 36.5,24.8 "
+                  />
+                  <ellipse class="ip1" cx="10.7" cy="12.3" rx="1.6" ry="1.5" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<% include ./partials/header.ejs %>
+<div class="w-full min-h-screen bg-zinc-900 text-white py-5">
+    <div class="flex justify-between items-center px-4">
+      <a class="text-sm text-blue-500" href="/profile"
+        ><i class="ri-arrow-left-s-line"></i> profile</a>
+      <h2 class="leading-none text-sm">Account center</h2>
+      <a class="text-sm" href="/feed"><i class="ri-home-line"></i> home</a>
+    </div>
+    <div>
+        <a href="/savedpic">
+            <div class="my-2 flex h-16 items-center justify-between rounded-lg border-2 border-b-4 border-l-4 border-zinc-800 px-4 shadow-xl">
+              <div class="flex items-center">
+                <div class="ml-0">
+                  <div class="text-sm font-semibold">Saved Posts</div>
+                  
+                </div>
+                
+              </div>
+              
+            </div>
+          </a>
+        <a href="/logout">
+            <div class="my-2 flex h-16 items-center justify-between rounded-lg border-2 border-b-4 border-l-4 border-zinc-800 px-4 shadow-xl">
+              <div class="flex items-center">
+                <div class="ml-0">
+                  <div class="text-sm text-red-500 font-semibold">Logout my account</div>
+                  
+                </div>
+
+              </div>
+              
+            </div>
+          </a>
+    </div>
+  </div>
+  <% include ./partials/footer.ejs %>

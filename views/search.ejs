@@ -1,0 +1,61 @@
+<% include ./partials/header.ejs %>
+<div class="w-full min-h-screen bg-zinc-900 px-4 py-5">
+  <div
+    class="border-2 border-zinc-800 flex items-center justify-between px-2 py-1 rounded-md"
+  >
+    <i class="text-white ri-search-line"></i>
+    <input
+      class="search-input ml-1 w-full bg-zinc-900 outline-none text-zinc-400"
+      type="text"
+      placeholder="search username"
+    />
+  </div>
+  <div class="users"></div>
+</div>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
+  integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script>
+  document
+    .querySelector(".search-input")
+    .addEventListener("input", function () {
+      var typedValue = this.value.trim(); // Remove leading and trailing spaces
+
+      // Check if the typed value is not empty
+      if (typedValue !== "") {
+        // Send the typed value to the server for search
+        axios
+          .post(`/api/userSearch/${typedValue}`)
+          .then((response) => {
+            // Handle search results here
+            var clutter = "";
+            response.data.forEach((elem) => {
+              clutter += `<a href="/userProfile/${elem._id}" class="outline-none">
+                            <div class="text-white flex items-center gap-2 mt-5">
+                                <div class="image w-[11vw] h-[11vw] rounded-full bg-sky-100 overflow-hidden">
+                                    <img class="w-full h-full object-cover " src="/images/uploads/${elem.profilePic}" alt="" srcset="">
+                                </div>
+                                <div class="text">
+                                    <h3>${elem.username}</h3>
+                                    <h4 class="text-xs opacity-30 leading-none">${elem.name}</h4>
+                                </div>
+                            </div>            
+                        </a>`;
+            });
+            document.querySelector(".users").innerHTML = clutter;
+          })
+          .catch((error) => {
+            console.error("Error searching users:", error);
+            // Handle error
+          });
+      } else {
+        // Clear the search results if the input is empty
+        document.querySelector(".users").innerHTML = "";
+      }
+    });
+</script>
+
+<% include ./partials/footer.ejs %>

@@ -1,0 +1,113 @@
+<% include ./partials/header.ejs %>
+  <div class="w-full min-h-screen bg-zinc-900 text-white py-5">
+       <div class="flex text-white justify-between items-center px-4">
+        <a class="text-sm text-blue-500" href="/profile"
+          ><i class="ri-arrow-left-s-line"></i> profile</a
+        >
+        <h2 class="leading-none text-sm"><%= postuser.username %> Profile</h2>
+        <a class="text-sm" href="/feed"><i class="ri-home-line"></i> home</a>
+      </div>
+      <div class="flex justify-between items-center pl-6 pr-[12vw] mt-8">
+        <div class="w-[19vw] h-[19vw] bg-sky-700 rounded-full overflow-hidden">
+          <img class="object-cover h-full w-full object-center" src="/images/uploads/<%= postuser.profilePic || 'default.jpeg' %>" alt="" />        </div>
+        <div class="stats flex gap-5 items-center justify-between">
+          <div class="flex flex-col items-center justify-center">
+            <h3><%= postuser.posts.length %></h3>
+            <h4>Posts</h4>
+          </div>
+          <div class="flex flex-col items-center justify-center">
+            <h3 id="followerCount"><%= postuser.followers.length %></h3>
+            <h4>followers</h4>
+          </div>
+          <div class="flex flex-col items-center justify-center">
+            <h3 id="followingCount"><%= postuser.following.length %></h3>
+            <h4>following</h4>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between gap-1">
+        <div class="dets px-6 mt-5">
+            <h3 class="text-lg mb-1"><%= postuser.name %></h3>
+            <p class="text-xs tracking-tight opacity-50">
+              <%=postuser.bio ?? 'Set bio...'%>
+            </p>
+          </div>
+         <div class="btns flex  items-center justify-center mr-5">
+            <div class=" mt-5">
+              <button class="px-6 py-2 text-xs rounded-md
+              <% if (postuser.followers.includes(user._id)) { %>
+                bg-zinc-700 text-white
+              <% } else { %>
+                bg-blue-600 text-white
+              <% } %>"
+              data-val="<%= postuser._id %>" id="followButton" onclick="toggleFollow()">
+              <%= (postuser.followers.includes(user._id)) ? 'Unfollow' : 'Follow' %>
+            </button>            </div>
+              <div class="px-5 mt-5">
+                <button class="px-6 py-2 bg-zinc-800 text-xs rounded-md">Contact</button>
+              </div>
+         </div>
+      </div>
+      
+      <% if (postuser.posts.length > 0) { %>
+        <div class="posts w-full flex  gap-1 py-2 mt-5 flex-wrap">
+          <% postuser.posts.reverse().forEach(function(post){ %>
+            <!-- <script>console.log("Post object:", <%= JSON.stringify(post) %>);</script> -->
+            <div class="post w-[32.5%] h-32 overflow-hidden">
+              <!-- Render HTML for each post -->
+             <img class="h-full w-full object-cover" src="../images/uploads/<%= post.image %>" alt="" />
+              <!-- Add more post details as needed -->
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="w-full flex justify-between gap-1 py-2 mt-[20%] flex-wrap">
+          <small class="text-center ml-[40%] opacity-50">No Post at</small>
+        </div>
+      <% } %>
+      
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    async function toggleFollow() {
+      
+      try {
+        const button = document.getElementById('followButton');
+          // Replace with the actual user ID
+        var userId = button.dataset.val
+        console.log(userId)
+    const response = await axios.post(`/api/follow/${userId}`);
+  console.log(response)
+    // Assuming your server responds with the updated follow status
+    const { isFollowing } = response.data;
+
+    // Update button text and style based on follow status
+    button.innerText = isFollowing ? 'Unfollow' : 'Follow';
+    button.classList.toggle('following', isFollowing);
+
+    // Set background color based on follow status
+if (isFollowing) {
+    button.classList.add('bg-zinc-700'); // Add background color for following
+    button.classList.remove('bg-blue-600'); // Remove background color for non-following
+} else {
+    button.classList.remove('bg-zinc-700'); // Remove background color for following
+    button.classList.add('bg-blue-600'); // Add background color for non-following
+}
+
+    // Update follower and following counts in real time
+    updateFollowCounts(response.data.followerCount, response.data.followingCount);
+  } catch (error) {
+    console.error('Error toggling follow:', error);
+  }
+}
+
+function updateFollowCounts(followerCount, followingCount) {
+  // Assuming you have elements with ids "followerCount" and "followingCount" to update
+  document.getElementById('followerCount').innerText = followerCount;
+  document.getElementById('followingCount').innerText = followingCount;
+}
+  
+    
+
+  </script>
+<% include ./partials/footer.ejs %>

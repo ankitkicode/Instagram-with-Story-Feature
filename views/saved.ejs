@@ -1,0 +1,28 @@
+<% include ./partials/header.ejs %>
+  <div class="w-full min-h-screen bg-zinc-900 text-white py-5">
+    <div class="flex justify-between items-center px-4">
+        <a class="text-sm text-blue-500" href="/profile"
+          ><i class="ri-arrow-left-s-line"></i> profile</a>
+        <h2 class="leading-none text-sm">Saved Posts</h2>
+        <a class="text-sm" href="/feed"><i class="ri-home-line"></i> home</a>
+      </div>
+      
+      <% if (user.posts.length > 0) { %>
+        <div class="posts w-full flex  gap-1 py-2 mt-5 flex-wrap">
+          <% user.saved.reverse().forEach(function(post){ %>
+            <!-- <script>console.log("Post object:", <%= JSON.stringify(post) %>);</script> -->
+            <div class="post w-[32.5%] h-32 overflow-hidden">
+              <!-- Render HTML for each post -->
+             <img class="h-full w-full object-cover" src="../images/uploads/<%= post.image %>" alt="" />
+              <!-- Add more post details as needed -->
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="w-full flex justify-between gap-1 py-2 mt-[20%] flex-wrap">
+          <small class="text-center ml-[40%] opacity-50">No Post at</small>
+        </div>
+      <% } %>
+      <!-- <div class="h-[80vh] top-12 right-0 absolute w-[50%] bg-zinc-400"></div> -->
+  </div>
+<% include ./partials/footer.ejs %>
