@@ -241,6 +241,23 @@ router.get('/followers', isloggedIn, async (req, res) => {
   }
 });
 
+// Define route to handle requests to /followers
+// Route to fetch users followed by the logged in user
+router.get('/following', isloggedIn, async (req, res) => {
+  try {
+      const user = await userModel.findOne({ username: req.session.passport.user });
+
+      // Fetch all users followed by the logged in user
+      const allFollowings = await userModel.find({ _id: { $in: user.following } }).populate('following');
+  // console.log(allFollowings)
+      // Render a view template with the list of users followed by the logged in user
+      res.render('following', { footer: true, allFollowings, user });
+  } catch (error) {
+      console.error('Error fetching users followed by the logged in user:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
 
 router.get('/edit', isloggedIn, async function (req, res) {
   const user = await userModel.findOne({ username: req.session.passport.user });

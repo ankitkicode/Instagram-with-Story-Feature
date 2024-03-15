@@ -21,10 +21,12 @@
             <h4>followers</h4>
           </div>
          </a>
-          <div class="flex flex-col items-center justify-center">
-            <h3><%= user.following.length %></h3>
-            <h4>following</h4>
-          </div>
+          <a href="/following">
+            <div class="flex flex-col items-center justify-center">
+              <h3><%= user.following.length %></h3>
+              <h4>following</h4>
+            </div>
+          </a>
         </div>
       </div>
       <div class="dets px-6 mt-5">
